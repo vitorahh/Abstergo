@@ -19,3 +19,4 @@ app.use('/Maquinas', Maquinas);
 app.listen(9001);
 
 //Iniciar o Tsconfig 
+//tsc --init
