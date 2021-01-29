@@ -11,20 +11,24 @@ const secrectHash = require('../../Config/jwt');
 
 //Autenticacao JWT
 AuthenticateRouter.post('/Authenticate', async (req, res) =>{
-    
     try
     {
         const user = { username: req.body.username, password: req.body.password};
-
         const responseModels = await doLogin(user);
 
-        const token = Jwt.sign({ idUsuario: responseModels.IDUsuario},secrectHash.secret, {
-            expiresIn: 86400,
-        })
+        const AccessToken = Jwt.sign(
+                {UserID: responseModels.UserID}
+                ,secrectHash.secret
+                ,{expiresIn: 86400}
+            )
 
-        if(responseModels.status === 200)
-            res.status(200).send({IDUsuario: responseModels.IDUsuario,token})
-        if(responseModels.status === 400)
+        if(responseModels.Status === 200)
+            res.status(200).send(
+                {
+                    UserID: responseModels.UserID
+                    ,AccessToken
+                })
+        if(responseModels.Status === 400)
             res.status(400).send({message: responseModels.message})
     }
     catch(err){

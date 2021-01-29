@@ -31,7 +31,7 @@ export function validation(req:Request, res:Response, next:any){
             return res.status(401).send({error : "Token invalid"})
         }
 
-        req.body.userID = decoded.idUsuario;
+        req.body.userID = decoded.UserID;
 
         return next();
     })

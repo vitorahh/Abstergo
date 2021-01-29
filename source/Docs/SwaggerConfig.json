@@ -1,0 +1,254 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "description": "Documentação da API do projeto Abstergo.",
+        "version": "1.0.5",
+        "title": "Abstergo API",
+        "contact": {
+            "name": "Willian Gomes Vitor",
+            "email": "vitor_ahh@hotmail.com"
+        }
+    },
+    "schemes": ["http"],
+    "components": {
+        "securitySchemes": {
+         "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+    },
+    "tags":[
+        {
+          "name":"Authentication",
+          "description": "Rota para Authenticação e geração do Bearer Token"
+        },  
+        {
+          "name":"Produtos",
+          "description": "Rotas para Produtos"
+        }],
+    "paths" : {
+        "/Produtos/Cadastro": {
+            "post": {
+               "summary" : "Cadastro de Novos Produtos",
+               "description": "Cadastro de Novos Produtos",
+               "security": [
+                  {
+                     "bearerAuth": []
+                  }
+               ],
+               "produces": [
+                  "application/json"
+               ],
+               "requestBody": {
+                  "required": true,
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/definitions/Produtos/InsertProduto"
+                        }
+                     },
+                     "application/x-www-form-urlencoded": {
+                        "schema": {
+                           "$ref": "#/definitions/Produtos/InsertProduto"
+                        }
+                     }
+                  }
+               },
+               "tags": [
+                  "Produtos"
+               ],
+               "responses": {
+                  "201": {
+                     "description": "Created"
+                  },
+                  "401": {
+                     "description": "Unauthorized"
+                  },
+                  "500": {
+                     "description": "Internal Error"
+                  }
+               }
+            }
+         },
+        "/Produtos/Atualizar" : {
+            "put" : {
+                "summary" : "Atualizar Produto",
+                "description": "Atualizar Produto",
+                "tags":["Produtos"],
+                "produces": ["application/json"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                       "application/json": {
+                          "schema": {
+                             "$ref": "#/definitions/Produtos/UpdateProduto"
+                          }
+                       },
+                       "application/x-www-form-urlencoded": {
+                          "schema": {
+                             "$ref": "#/definitions/Produtos/UpdateProduto"
+                          }
+                       }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Updated successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Error"
+                    }
+                }
+            }
+        },
+        "/Produtos/Deletar/{ProdutoID}" : {
+            "delete" : {
+                "summary" : "Deletar Produto",
+                "description": "Deletar Produto",
+                "tags":["Produtos"],
+                "produces": ["application/json"],
+                "security": [{
+                    "bearerAuth":[]
+                }],
+                "parameters": [
+                    {
+                        "name": "ProdutoID",
+                        "in": "path",
+                        "description": "Produto a ser Deletado",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete Successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Error"
+                    }
+                }
+            }
+        },
+        "/User/Authenticate" : {
+            "post" : {
+                "summary" : "Rota de login feita para se adquirir o token de acesso",
+                "description": "Rota de login feita para se adquirir o token de acesso",
+                "tags":["Authentication"],
+                "produces": ["application/json"],
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref": "#/definitions/Authenticate/Login"
+                            }
+                        },
+                        "application/x-www-form-urlencoded":{
+                            "schema":{
+                                "$ref": "#/definitions/Authenticate/Login"
+                                }
+                            }
+                },
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Authenticate/Login"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/definitions/Authenticate/Login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Error"
+                    }
+                }
+            }
+        }
+    }, 
+    "definitions": {
+        "Authenticate": {
+            "Login": {
+               "type": "object",
+               "properties": {
+                  "username": {
+                     "required": true,
+                     "type": "string"
+                  },
+                  "password": {
+                     "required": true,
+                     "type": "string"
+                  }
+               }
+            }
+         },
+         "Produtos": {
+            "UpdateProduto": {
+               "type": "object",
+               "properties": {
+                  "ID_PRODUTO": {
+                     "required": true,
+                     "type": "integer"
+                  },
+                  "DS_PRODUTO": {
+                     "type": "string"
+                  },
+                  "ID_TIPO_PRODUTO": {
+                     "type": "integer"
+                  },
+                  "FL_STATUS": {
+                     "type": "boolean"
+                  }
+               }
+            },
+            "InsertProduto": {
+               "type": "object",
+               "properties": {
+                  "DS_PRODUTO": {
+                     "required": true,
+                     "type": "string"
+                  },
+                  "ID_TIPO_PRODUTO": {
+                     "required": true,
+                     "type": "integer"
+                  }
+               }
+            },
+            "deleteProduto": {
+               "properties": {
+                  "ID_PRODUTO": {
+                     "required": true,
+                     "type": "integer"
+                  }
+               }
+            }
+         }
+    }
+}

@@ -10,7 +10,6 @@ import { validation } from '../../Middleware/Authen';
 //Autenticacao JWT
 MaquinasRouter.use(validation);
 
-
 MaquinasRouter.post('/listMaquinas', async (req, res) =>{
     try
     {

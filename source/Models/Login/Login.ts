@@ -1,10 +1,12 @@
+
 import { knex } from '../../Database/configDataBase';
 import { hash, compare} from 'bcryptjs';
 
 interface Register {
     user:string,
     username:string,
-    password:string
+    password:string,
+    idTipoUser:Int32Array
 }
 
 export async function Register(user:Register){
@@ -12,20 +14,19 @@ export async function Register(user:Register){
         user.password = await hash(user.password, 10);
         
         const UserDTO =  {
-              DS_NOME_USUARIO: user.user
-             ,DS_LOGIN_USUARIO: user.username
-             ,DS_PASSWORD_USUARIO: user.password
-             ,FL_STATUS_USUARIO: true
-             ,DS_IMG_USUARIO:'Não tem imagem'
+              DS_NOME: user.user
+             ,DS_LOGIN: user.username
+             ,DS_SENHA: user.password
+             ,ID_TIPO_USUARIO: user.idTipoUser
             }
 
-          const iduser = await knex('TB_SN_USUARIOS').where({DS_LOGIN_USUARIO: user.username}).select('ID_USUARIO')
+          const iduser = await knex('TB_ST_USUARIOS').where({DS_LOGIN: user.username}).select('ID_USUARIO')
 
           if(iduser.length > 0)
                return { status:409, message:'Usuario ja cadastrado'};
           else
           {
-             const response = await knex('TB_SN_USUARIOS').insert(UserDTO).returning("ID_USUARIO")
+             const response = await knex('TB_ST_USUARIOS').insert(UserDTO).returning("ID_USUARIO")
              return {status: 200, idUser: response[0]}
           }
               
@@ -36,18 +37,22 @@ export async function Register(user:Register){
 
 export async function doLogin(user:{ username:string, password:string }){
    try{
-      const IDUsuario = 
-         await knex('TB_SN_USUARIOS')
-         .where({DS_LOGIN_USUARIO: user.username})
+      knex.initialize();
       
-      if(!IDUsuario[0])
-         return {status: 400, message: 'Usuario invalido!'}
+      const User = await knex('TB_ST_USUARIOS').where({DS_LOGIN: user.username}).first();
+      
+      if(!User)
+         return {Status: 400, message: 'Usuario invalido!'}
 
-      if(!await compare(user.password,IDUsuario[0].DS_PASSWORD_USUARIO))
-         return {status: 400, message: 'Senha Invalida!'}
+      if(!await compare(user.password, User.DS_SENHA))
+         return {Status: 400, message: 'Senha Invalida!'}
 
-      return {status:200, IDUsuario:IDUsuario[0].ID_USUARIO}
+      return { Status:200, UserID:User.ID_USUARIO }
+
    }catch(err){
       throw new Error(`Ocorreu um erro ao tentar logar`);
+   }
+   finally{
+      knex.destroy();
    }
 }
