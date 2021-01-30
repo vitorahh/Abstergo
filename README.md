@@ -12,7 +12,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 
 ## 💻 Projeto
-Uma Api Rest Full feita de exemplo para aplicação de algumas tecnologias, com a ideia de construir um controle de Estoque simples com cadastro de produtos, entrada e saida dos mesmos.
+Uma API Restful feita de exemplo para aplicação de algumas tecnologias, com a ideia de construir um controle de Estoque simples com cadastro de produtos, entrada e saida dos mesmos.
 <br/>
 
 <p align="center">Feito por Willian Gomes Vitor</center>
