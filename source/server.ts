@@ -2,10 +2,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-const swaggerDocument = require('./Docs/SwaggerConfig.json');
-
 //Documentação
 const SwaggerUI = require('swagger-ui-express');
+const swaggerDocument = require('./Config/SwaggerOptions.json');
 
 
 const app = express();
@@ -26,20 +25,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
-
-
-
-
 app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocument));
 
-
 app.use('/User', RegisterRouter);
-
 app.use('/User', Authentication);
 app.use('/Maquinas', Maquinas);
 app.use('/Produtos', Produtos);
 
-app.listen(9001);
+app.listen(9001, () => {
+    console.log('API Documentation - http://localhost:9001/api-docs/');
+});
 
 //Iniciar o Tsconfig 
 //tsc --init

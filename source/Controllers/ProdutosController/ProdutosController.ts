@@ -4,7 +4,7 @@ const ProdutosRouter = express.Router();
 
 import { validation } from '../../Middleware/Authen';
 
-import { Deleteproducts, insertproducts, Updateproducts } from '../../Models/Produtos/Produtos';
+import { Deleteproducts, insertproducts, Listproduct, Oneproduct, Updateproducts } from '../../Models/Produtos/Produtos';
 
 
 //Autenticacao JWT
@@ -48,6 +48,39 @@ ProdutosRouter.delete('/Deletar/:ProdutoID', async (req, res) => {
         const response =  await Deleteproducts(parseInt(req.params.ProdutoID))
         if(response.Status == 200)
             res.status(200).send({message: 'Produto Deletado com sucesso'})
+        else 
+            res.status(400).send({message: 'Erro ao tentar atualizar produto'})
+    }
+    catch(err)
+    {
+        res.status(500).send({error: err.message})
+    }
+})
+
+ProdutosRouter.get('/GetProduto/:ProdutoID', async (req, res) => {
+    try
+    {   
+        console.log(req);
+        const response =  await Oneproduct(parseInt(req.params.ProdutoID))
+        if(response.Status == 200)
+            res.status(200).send(response.produto)
+        else 
+            res.status(400).send({message: 'Erro ao tentar atualizar produto'})
+    }
+    catch(err)
+    {
+        res.status(500).send({error: err.message})
+    }
+})
+
+
+ProdutosRouter.get('/listProdutos/', async (req, res) => {
+    try
+    {   
+        console.log(req);
+        const response =  await Listproduct()
+        if(response.Status == 200)
+            res.status(200).send({Produtos: response.produtos})
         else 
             res.status(400).send({message: 'Erro ao tentar atualizar produto'})
     }

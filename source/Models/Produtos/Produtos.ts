@@ -76,3 +76,40 @@ export async function Deleteproducts(ID_PRODUTO:number){
         knex.destroy();
      }
  }
+
+ export async function Oneproduct(ID_PRODUTO:number){
+    try{
+
+        knex.initialize();
+       
+        const OneProduct = await knex('TB_ST_PRODUTOS').select()
+            .where({ID_PRODUTO : ID_PRODUTO}).first();
+
+        return { Status: 200, valid: true, produto: OneProduct };
+    }
+    catch(err)
+    {
+       throw new Error(`Ocorreu um erro ao Buscar Produto ${err.message}`);
+    }
+    finally{
+        knex.destroy();
+     }
+ }
+
+ export async function Listproduct(){
+    try{
+
+        knex.initialize();
+       
+        const Products = await knex('TB_ST_PRODUTOS').select()
+
+        return { Status: 200, valid: true, produtos: Products };
+    }
+    catch(err)
+    {
+       throw new Error(`Ocorreu um erro ao Buscar Produto ${err.message}`);
+    }
+    finally{
+        knex.destroy();
+     }
+ }
