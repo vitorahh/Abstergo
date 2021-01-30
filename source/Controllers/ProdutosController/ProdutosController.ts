@@ -30,8 +30,9 @@ ProdutosRouter.put('/Atualizar', async (req, res) => {
     try
     {
         const response =  await Updateproducts(req.body)
-        if(response.Status == 204)
-            res.status(204).send({message: 'Produto Atualizado com sucesso'})
+        console.log(response)
+        if(response.Status == 200)
+            res.status(200).send({message: 'Produto Atualizado com sucesso'})
         else 
             res.status(400).send({message: 'Erro ao tentar atualizar produto'})
     }

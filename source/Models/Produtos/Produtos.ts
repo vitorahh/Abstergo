@@ -32,7 +32,6 @@ export async function Updateproducts(Props:produtos){
         
         //O update pelo KnexJS tem q ser feito por Rows
         const TableProdutos = knex('TB_ST_PRODUTOS').where({ID_PRODUTO : Props.ID_PRODUTO});
-
         if(Props.ID_PRODUTO)
         {
             if(Props.DS_PRODUTO)
@@ -44,7 +43,8 @@ export async function Updateproducts(Props:produtos){
             if(Props.FL_STATUS != undefined)
                 await TableProdutos.update({FL_STATUS: Props.FL_STATUS})
         }
-        return { Status:204, valid:true };
+        
+        return { Status:200, valid:true };
     }
     catch(err)
     {

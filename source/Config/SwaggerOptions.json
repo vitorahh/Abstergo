@@ -49,10 +49,24 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Get Successfully"
+                        "description": "Get Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/definitions/Produtos/GetProduct"
+                                }
+                             }
+                         }
                     },
                     "401": {
-                        "description": "Unauthorized"
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/definitions/Error/Unauthorized"
+                                }
+                             }
+                         }
                     },
                     "404": {
                         "description": "Not Found"
@@ -135,7 +149,14 @@
                ],
                "responses": {
                   "201": {
-                     "description": "Created"
+                     "description": "Created",
+                     "content": {
+                        "application/json": {
+                            "schema": {
+                               "$ref": "#/definitions/Produtos/CreateProduct"
+                            }
+                         }
+                     }
                   },
                   "401": {
                      "description": "Unauthorized",
@@ -179,8 +200,15 @@
                     }
                 },
                 "responses": {
-                    "204": {
-                        "description": "Updated successfully"
+                    "200": {
+                        "description": "Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/definitions/Produtos/UpdateProduct"
+                                }
+                             }
+                         }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -221,7 +249,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Delete Successfully"
+                        "description": "Delete Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/definitions/Produtos/DeleteProduct"
+                                }
+                             }
+                         }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -277,7 +312,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success"
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/definitions/Authenticate/SuccessAuth"
+                                }
+                             }
+                         }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -310,9 +352,17 @@
                      "type": "string"
                   }
                }
+            },
+            "SuccessAuth": {
+                "type": "object",
+                "example":
+                {
+                    "UserID": 1,
+                    "AccessToken": "InR5cCI6IkpXVCJ9.eyJVc2VySUQiOSwiZXhwIjoxNjEyMDk2Nzc1fQ.4Bh2Jj_ZGDkjGrrH"
+                }
             }
-         },
-         "Produtos": {
+        },
+        "Produtos": {
             "UpdateProduto": {
                "type": "object",
                "properties": {
@@ -369,6 +419,37 @@
                         "ID_TIPO_PRODUTO": 3,
                         "FL_STATUS": true
                         }]
+                }
+            },
+            "CreateProduct":{
+                "type": "object",
+                "example":
+                {
+                    "message": "Produto Cadastrado com sucesso"
+                }
+            },
+            "UpdateProduct":{
+                "type": "object",
+                "example":
+                {
+                    "message": "Produto Atualizado com sucesso"
+                }
+            },
+            "DeleteProduct":{
+                "type": "object",
+                "example":
+                {
+                    "message": "Produto Deletado com sucesso"
+                }
+            },
+            "GetProduct":{
+                "type": "object",
+                "example":
+                {
+                    "ID_PRODUTO": 1,
+                    "DS_PRODUTO": "Ribbon de Cera",
+                    "ID_TIPO_PRODUTO": 3,
+                    "FL_STATUS": true
                 }
             }
         },
