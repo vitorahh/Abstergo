@@ -425,6 +425,7 @@
                 "type": "object",
                 "example":
                 {
+                    "produtoID": 20,
                     "message": "Produto Cadastrado com sucesso"
                 }
             },

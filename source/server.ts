@@ -13,7 +13,6 @@ const app = express();
 const RegisterRouter = require('./Controllers/Usercontrollers/Register');
 const Authentication = require('./Controllers/Usercontrollers/Authentication');
 
-
 //Rotas com Auth do sistemas
 const Maquinas = require('./Controllers/MaquinasControllers/MaquinasController');
 const Produtos = require('./Controllers/ProdutosController/ProdutosController');
@@ -32,9 +31,7 @@ app.use('/User', Authentication);
 app.use('/Maquinas', Maquinas);
 app.use('/Produtos', Produtos);
 
-app.listen(9001, () => {
-    console.log('API Documentation - http://localhost:9001/api-docs/');
-});
+module.exports = app;
 
 //Iniciar o Tsconfig 
 //tsc --init

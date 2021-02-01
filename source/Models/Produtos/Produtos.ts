@@ -8,13 +8,12 @@ export async function insertproducts(Props:produtos){
         
         knex.initialize();
 
-        await knex('TB_ST_PRODUTOS')
+        const ProdutoID = await knex('TB_ST_PRODUTOS')
         .insert({
             DS_PRODUTO:Props.DS_PRODUTO,
             ID_TIPO_PRODUTO: Props.ID_TIPO_PRODUTO
-        })
-       
-       return { Status:201, valid:true }
+        }).returning('ID_PRODUTO')
+       return { Status:201, valid:true, ProdutoID: ProdutoID }
     }
     catch(err)
     {

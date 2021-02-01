@@ -13,18 +13,18 @@ ProdutosRouter.use(validation);
 ProdutosRouter.post('/Cadastro', async (req, res) => {
     try
     {
-       console.log(req.body)
        const response =  await insertproducts(req.body)
        if(response.Status == 201)
-        res.status(201).send({message: 'Produto Cadastrado com sucesso'}) 
+        res.status(201).send({
+                                 produtoID: response.ProdutoID[0]
+                                ,message: 'Produto Cadastrado com sucesso'
+                            }) 
     }
     catch(err)
     {
         res.status(500).send({error: err.message})
     }
 })
-
-
 
 ProdutosRouter.put('/Atualizar', async (req, res) => {
     try
@@ -45,7 +45,6 @@ ProdutosRouter.put('/Atualizar', async (req, res) => {
 ProdutosRouter.delete('/Deletar/:ProdutoID', async (req, res) => {
     try
     {   
-        console.log(req);
         const response =  await Deleteproducts(parseInt(req.params.ProdutoID))
         if(response.Status == 200)
             res.status(200).send({message: 'Produto Deletado com sucesso'})
@@ -74,11 +73,9 @@ ProdutosRouter.get('/GetProduto/:ProdutoID', async (req, res) => {
     }
 })
 
-
 ProdutosRouter.get('/listProdutos/', async (req, res) => {
     try
     {   
-        console.log(req);
         const response =  await Listproduct()
         if(response.Status == 200)
             res.status(200).send({Produtos: response.produtos})
